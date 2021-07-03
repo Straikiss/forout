@@ -1,0 +1,105 @@
+{% load static %}
+{% load cloudinary %}
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Контакты</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+  </head>
+  <body>
+    <header class="header" id="header">
+      <div class="header-menu" id="header-menu-show">
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+      </div>
+      <a class="header-title" href="{% url 'contacts' %}">{{user}}</a>
+    </header>      
+    <main class="main"> 
+      <aside class="aside" id="aside-hide"> 
+        <div class="aside-menu" id="hidden-menu-hide">
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+        </div>
+        <a class="aside-title" href="{% url 'contacts' %}">{{user}}</a>
+        <a class="aside-link" href="{% url 'videos' %}">Видео</a>
+        <a class="aside-link" href="{% url 'premium' %}">Премиум</a>
+        <a class="aside-link" href="{% url 'pack1' %}">Пак #1</a>
+        <a class="aside-link" href="{% url 'pack2' %}">Пак #2</a>
+        <a class="aside-link" href="{% url 'pack3' %}">Пак #3</a>
+        <a class="aside-link aside-link-active" href="{% url 'contacts' %}">Контакты</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="aside-link" type="submit">Выход</button>
+        </form>
+      </aside>
+      <section class="section">
+        <div class="container">
+          <div class="row">
+            <h1 class="section-title" style="width: 100%;">Для получения премиум аккаунта напишите на почту: forout2000@mail.ru</h1>
+            <p class="section-text">
+              <a class="color-purple" href="https://cloud.mail.ru/public/LzZy/5eYTyVHcY" target="_blank">Видео доказательство</a> премиум аккаунта.
+            </p>
+          </div>
+        </div>
+        <div class="container mb-15">
+          <div class="row">
+            {% if user.username == 'user' %}
+            <div class="section-type section-type-active">
+              <p class="section-type-active-status">Активирован</p>
+            {% else %}
+            <div class="section-type">
+              <p class="section-type-active-status">Не активирован</p>
+            {% endif %}
+              <h2 class="section-type-title">Беплатный аккаунт</h2>
+              <p class="section-bonus">Просмотр видео из раздела "видео"</p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus"><br></p>
+              <p class="section-bonus">Стоимость: бесплатно</p>
+            </div>
+            {% if user.username == 'admin' or user.username == 'premium' %}
+            <div class="section-type section-type-active">
+              <p class="section-type-active-status">Активирован</p>
+            {% else %}
+            <div class="section-type">
+              <p class="section-type-active-status">Не активирован</p>
+            {% endif %}
+              <h2 class="section-type-title">Премиум аккаунт</h2>
+              <p class="section-bonus">Просмотр видео из раздела "видео"</p>
+              <p class="section-bonus">Просмотр видео из раздела "премиум"</p>
+              <p class="section-bonus">Просмотр видео из раздела "пак #1"</p>
+              <p class="section-bonus">Просмотр видео из раздела "пак #2"</p>
+              <p class="section-bonus">Просмотр видео из раздела "пак #3"</p>
+              <p class="section-bonus">Ссылка на настоящий инстаграм в "пак #1"</p>
+              <p class="section-bonus">Скачивание видео из любого раздела</p>
+              <p class="section-bonus">Стоимость: 250р* (навсегда)</p>
+            </div>
+          </div>
+          <p class="section-title">
+            Премиум аккаунт получается навсегда (без ограничения по времени). <br>
+            <span style="opacity: .3;">
+              Премиум аккаунт можно получить 3 способами: <br>
+              1. Приобретение за стоимость 250р. <br>
+              2. Предоставление контента (кроме который уже есть на сайте, за исключением если это продолжение). <br>
+              3. За нахождение и сообщения (на почту) ошибку на сайте, нерабочая ссылка или видео, видео повторяется (за ислючением продолжения).
+            </span> 
+          </p>
+        </div>
+      </section>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/metrika.js' %}"></script>
+  </body>
+</html>
+{% else %}
+  <h1>Ошибка 403. Доступ запрещен.</h1>
+{% endif %}

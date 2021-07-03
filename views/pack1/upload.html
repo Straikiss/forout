@@ -1,0 +1,77 @@
+{% load static %}
+{% load cloudinary %}
+{% if user.is_authenticated and user.username == 'admin' %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Загрузить в пак #1</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+  </head>
+  <body>
+    <header class="header" id="header">
+      <div class="header-menu" id="header-menu-show">
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+      </div>
+      <a class="header-title" href="{% url 'contacts' %}">{{user}}</a>
+    </header> 
+    <main class="main"> 
+      <aside class="aside" id="aside-hide"> 
+        <div class="aside-menu" id="hidden-menu-hide">
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+        </div>
+        <a class="aside-title" href="{% url 'contacts' %}">{{user}}</a>
+        <a class="aside-link" href="{% url 'videos' %}">Видео</a>
+        <a class="aside-link" href="{% url 'premium' %}">Премиум</a>
+        <a class="aside-link" href="{% url 'pack1' %}">Пак #1</a>
+        <a class="aside-link" href="{% url 'pack2' %}">Пак #2</a>
+        <a class="aside-link" href="{% url 'pack3' %}">Пак #3</a>
+        <a class="aside-link" href="{% url 'contacts' %}">Контакты</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="aside-link" type="submit">Выход</button>
+        </form>
+      </aside>
+      <section class="section">
+        <div class="container">
+          <div class="row">
+            <h1 class="section-amount">Загрузить в пак #1</h1>
+            <div class="section-load">
+              <a class="section-button" href="{% url 'pack1' %}">Назад</a>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="form-upload">
+            <div class="row">
+              <form action="{% url 'upload_pack1' %}" method="post" enctype="multipart/form-data" autocomplete="off">
+                {% csrf_token %}
+                <p>Постер:</p>
+                <input class="form-upload-input" id="id_image" name="poster" accept="image/*" type="file" required>
+                <p>Видео:</p>
+                <input class="form-upload-input" id="id_video" name="video" accept="video/*" type="file" required>
+                <p>Название пути:</p>
+                <input class="form-upload-input" id="id_slug" name="slug" type="text" required>
+                <p>Время:</p>
+                <input class="form-upload-input" id="id_time" name="time" type="text" required>
+                <p>Вес:</p>
+                <input class="form-upload-input" id="id_size" name="size" type="text" required>
+                <button class="form-upload-button" type="submit">Загрузить</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
+{% else %}
+  <h1>Ошибка 403. Доступ запрещен.</h1>
+{% endif %}

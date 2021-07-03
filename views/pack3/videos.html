@@ -1,0 +1,85 @@
+{% load static %}
+{% load cloudinary %}
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Пак #3</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+  </head>
+  <body>
+    <header class="header" id="header">
+      <div class="header-menu" id="header-menu-show">
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+        <span class="menu-berger"></span>
+      </div>
+      <a class="header-title" href="{% url 'contacts' %}">{{user}}</a>
+    </header> 
+    <main class="main"> 
+      <aside class="aside" id="aside-hide"> 
+        <div class="aside-menu" id="hidden-menu-hide">
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+          <span class="menu-berger"></span>
+        </div>
+        <a class="aside-title" href="{% url 'contacts' %}">{{user}}</a>
+        <a class="aside-link" href="{% url 'videos' %}">Видео</a>
+        <a class="aside-link" href="{% url 'premium' %}">Премиум</a>
+        <a class="aside-link" href="{% url 'pack1' %}">Пак #1</a>
+        <a class="aside-link" href="{% url 'pack2' %}">Пак #2</a>
+        <a class="aside-link aside-link-active" href="{% url 'pack3' %}">Пак #3</a>
+        <a class="aside-link" href="{% url 'contacts' %}">Контакты</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="aside-link" type="submit">Выход</button>
+        </form>
+      </aside>
+      <section class="section">
+        <div class="container">
+          <div class="row">
+            {% if user.username == 'admin' %}
+            <h1 class="section-amount">Пак #3: {{video}}</h1>
+            <div class="section-load">
+              <a class="section-button" href="{% url 'upload_pack3' %}">Загрузить</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% if user.username == 'user' %}
+        <div class="container">
+          <div class="row">
+            <h1 class="section-title-2">Для просмотра видео в этом разделе нужен <a class="color-purple" href="{% url 'contacts' %}">премиум аккаунт</a>.</h1>
+          </div>
+        </div>
+        {% endif %}
+        <div class="container">
+          <div class="row">
+            {% for video in videos %}
+            <div class="section-link">
+              {% if user.username == 'user' %}
+              <img class="section-image" src="{{video.poster.url}}" draggable="false">
+              <p class="section-time">{{video.time}}</p>
+              {% else %} 
+              <a href="{% url 'video_pack3' slug=video.slug %}">
+                <img class="section-image" data-src="{{video.poster.url}}" draggable="false">
+                <p class="section-time">{{video.time}}</p>
+              </a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/metrika.js' %}"></script>
+    <script src="{% static 'js/load.js' %}"></script>
+  </body>
+</html>
+{% else %}
+<h1>Ошибка 403. Доступ запрещен.</h1>
+{% endif %}
